@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 10, 2024 at 11:09 AM
+-- Generation Time: Sep 13, 2024 at 11:05 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -59,7 +59,7 @@ CREATE TABLE `order_details` (
 --
 
 CREATE TABLE `products` (
-  `id` int(20) NOT NULL,
+  `product_id` int(20) NOT NULL,
   `product_code` int(50) NOT NULL,
   `product_name` varchar(100) NOT NULL,
   `description` varchar(1000) NOT NULL,
@@ -86,14 +86,14 @@ ALTER TABLE `orders`
 -- Indexes for table `order_details`
 --
 ALTER TABLE `order_details`
-  ADD PRIMARY KEY (`product_id`),
+  ADD PRIMARY KEY (`product_id`,`order_id`),
   ADD KEY `fk_order_id` (`order_id`);
 
 --
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`product_id`);
 
 --
 -- Constraints for dumped tables
@@ -103,13 +103,8 @@ ALTER TABLE `products`
 -- Constraints for table `order_details`
 --
 ALTER TABLE `order_details`
-  ADD CONSTRAINT `fk_order_id` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
-
---
--- Constraints for table `products`
---
-ALTER TABLE `products`
-  ADD CONSTRAINT `fk_products` FOREIGN KEY (`id`) REFERENCES `order_details` (`product_id`);
+  ADD CONSTRAINT `fk_order_id` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
+  ADD CONSTRAINT `fk_product_id` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
